@@ -2,9 +2,10 @@ import cors from "cors";
 import express from "express";
 import { PrismaClient } from "@prisma/client"; // Prisma
 import jwt from "jsonwebtoken";
+import bodyParser from 'body-parser';
 
 const app = express();
-const bodyParser = require('body-parser');
+const bodyParser = bodyParser();
 const prisma = new PrismaClient(); // Prisma
 const PORT = 8081
 
