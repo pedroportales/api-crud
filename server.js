@@ -209,7 +209,19 @@ app.get('/matriCourse', async (req,res) => {
     if(req.query){
         matriCourses = await prisma.matriCourse.findMany({
             where: {
-                id: req.query.id
+                userId: req.query.userId
+            },
+            include: {
+                course: {
+                    select: {
+                        name: true,
+                    }
+                },
+                user: {
+                    select: {
+                        name: true
+                    }
+                }
             }
         }); // Prisma
     } else {
