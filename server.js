@@ -215,6 +215,8 @@ app.get('/matriCourse', async (req,res) => {
                 course: {
                     select: {
                         name: true,
+                        duration: true,
+                        description: true
                     }
                 },
                 user: {
