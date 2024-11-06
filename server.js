@@ -22,6 +22,29 @@ app.use('/', (req,res) => {
     })
 })*/
 
+app.post('/login/google', async (req, res) => {
+    const { email, name } = req.body;
+  
+    try {
+      // Verifique se o usuário já existe
+      let user = await prisma.user.findUnique({ where: { email } });
+  
+      if (!user) {
+        // Cria o usuário automaticamente se não existir
+        user = await prisma.user.create({
+          data: { email, name, password: '' }, // Password pode ser vazio
+        });
+      }
+  
+      // Gere o token JWT para autenticação
+      const token = jwt.sign({ id: user.id, email: user.email }, SECRET, { expiresIn: '1h' });
+  
+      res.status(200).json({ message: 'Login com Google bem-sucedido', token, userId: user.id });
+    } catch (error) {
+      res.status(500).json({ message: 'Erro ao autenticar com Google', error: error.message });
+    }
+  }); 
+
 app.post('/login', async (req, res) => {
 
     const { email, password } = req.body;
